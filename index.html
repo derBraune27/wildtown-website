@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <title>WildTown – Minecraft Server | wildtown.eu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="WildTown – dein deutscher Minecraft-Survival-Server auf wildtown.eu mit Community, Economy, Events und entspanntem Gameplay.">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #101425 0, #05060b 55%, #020308 100%);
+            color: #f4f4f4;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Header / Navbar */
+        header {
+            background: linear-gradient(to right, #05060c, #090d18);
+            border-bottom: 1px solid #272c42;
+            backdrop-filter: blur(14px);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .nav-container {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.35rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: #ffd94a;
+            text-shadow:
+                0 0 6px rgba(0,0,0,0.9),
+                0 3px 0 #7b5a10;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a {
+            padding: 0.3rem 0.7rem;
+            border-radius: 99px;
+            transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+        }
+
+        .nav-links a:hover {
+            background: #23283b;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+        }
+
+        @media (max-width: 720px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            min-height: 72vh;
+            padding: 3.5rem 1rem 4.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Minecraft-artiger Himmel/Gras/Erde-Hintergrund */
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(
+                    to bottom,
+                    #222c52 0%,
+                    #182037 30%,
+                    #0b101c 55%,
+                    #1e4720 70%,
+                    #34752b 78%,
+                    #5e4023 82%,
+                    #4a2b15 100%
+                );
+            z-index: -3;
+        }
+
+        /* Glühen von oben */
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at top, rgba(255, 234, 130, 0.22), transparent 58%);
+            z-index: -2;
+        }
+
+        /* Gras-/Erde-Balken am unteren Rand des Hero (Minecraft-Style) */
+        .hero-block-strip {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 40px;
+            background-image:
+                linear-gradient(to bottom, #3f8b32 0, #2f6a25 50%, #5e3b1d 51%, #3e2512 100%);
+            box-shadow: 0 -6px 16px rgba(0,0,0,0.6);
+            z-index: -1;
+        }
+
+        .hero-inner {
+            max-width: 760px;
+            padding: 1rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.9rem, 6.4vw, 3.9rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: #ffd94a;
+            margin-bottom: 0.8rem;
+            text-shadow:
+                0 0 8px rgba(0,0,0,0.9),
+                0 4px 0 #7b5a10,
+                0 7px 16px rgba(0,0,0,0.9);
+        }
+
+        .hero-title span {
+            display: inline-block;
+            transform: translateY(-2px);
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: #e3e7ff;
+            margin-bottom: 1.4rem;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+        }
+
+        .server-ip-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.6rem 1.1rem;
+            border-radius: 999px;
+            border: 1px solid #323956;
+            background: rgba(6, 10, 22, 0.95);
+            margin-bottom: 1.3rem;
+            font-family: "Consolas", "Courier New", monospace;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+        }
+
+        .server-ip-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #a3aad7;
+        }
+
+        .server-ip {
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 999px;
+            padding: 0.8rem 1.7rem;
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.13em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            transition: transform 0.1s ease, box-shadow 0.16s ease, background 0.15s ease, filter 0.15s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to bottom, #52d157, #2fa437);
+            color: #fefefe;
+            box-shadow:
+                0 5px 0 #1b6f23,
+                0 10px 24px rgba(0,0,0,0.7);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 7px 0 #1b6f23,
+                0 14px 30px rgba(0,0,0,0.85);
+            filter: brightness(1.03);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to bottom, #2b3550, #20263a);
+            color: #e3e7ff;
+            box-shadow:
+                0 5px 0 #141827,
+                0 10px 24px rgba(0,0,0,0.6);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 7px 0 #141827,
+                0 14px 30px rgba(0,0,0,0.85);
+            filter: brightness(1.03);
+        }
+
+        /* Main Layout */
+        main {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 2.5rem 1rem 3.2rem;
+        }
+
+        section.block {
+            margin-bottom: 2.5rem;
+            background: radial-gradient(circle at top left, #1a2138 0, #090c16 65%);
+            border-radius: 14px;
+            border: 1px solid #272c42;
+            padding: 1.9rem 1.6rem;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7);
+        }
+
+        section.block h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #ffd94a;
+            text-shadow: 0 3px 0 #644710;
+        }
+
+        section.block p {
+            font-size: 0.98rem;
+            color: #d4daff;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+            gap: 1.8rem;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 840px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .card {
+            background: radial-gradient(circle at top, #262f4e 0, #161a27 65%);
+            border-radius: 10px;
+            border: 1px solid #323956;
+            padding: 1rem;
+            box-shadow: 0 10px 26px rgba(0,0,0,0.7);
+        }
+
+        .card h3 {
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+            color: #ffe48a;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            background: #23283b;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            margin-top: 0.5rem;
+        }
+
+        ul {
+            margin-left: 1.1rem;
+            margin-top: 0.4rem;
+            color: #d4daff;
+            font-size: 0.95rem;
+        }
+
+        li + li {
+            margin-top: 0.25rem;
+        }
+
+        /* Status Card */
+        .status-card {
+            background: radial-gradient(circle at top, #242c4a 0, #111526 70%);
+            border-radius: 12px;
+            border: 1px solid #31385b;
+            padding: 1.1rem 1rem;
+            margin-top: 0.6rem;
+            box-shadow: 0 14px 30px rgba(0,0,0,0.8);
+        }
+
+        .status-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .status-title {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #a7aedb;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            background: #272c40;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 999px;
+            background: #f59e0b;
+        }
+
+        .status-body {
+            font-size: 0.9rem;
+            color: #d4daff;
+        }
+
+        .status-metrics {
+            margin-top: 0.7rem;
+            font-size: 0.87rem;
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            color: #b7bde6;
+        }
+
+        .status-metrics span {
+            opacity: 0.95;
+        }
+
+        /* Discord block */
+        .discord-box {
+            background: radial-gradient(circle at top, #26325c 0, #15192a 70%);
+            border-radius: 12px;
+            border: 1px solid #364068;
+            padding: 1.2rem 1.1rem;
+            margin-top: 0.8rem;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.85);
+        }
+
+        .discord-name {
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .discord-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.92rem;
+            margin-top: 0.6rem;
+            color: #7ec4ff;
+        }
+
+        .small-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #9ca3d5;
+            margin-bottom: 0.2rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #272c42;
+            background: #05060c;
+            text-align: center;
+            padding: 1.6rem 1rem 2.1rem;
+            font-size: 0.85rem;
+            color: #7c83a3;
+        }
+
+        footer a {
+            color: #ffd94a;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">WILDTOWN</div>
+            <nav class="nav-links">
+                <a href="#about">Über</a>
+                <a href="#status">Status</a>
+                <a href="#features">Features</a>
+                <a href="#rules">Regeln</a>
+                <a href="#discord">Discord</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h1 class="hero-title"><span>WILDTOWN</span></h1>
+            <p class="hero-subtitle">
+                Willkommen auf <strong>WildTown</strong> – deinem deutschen Minecraft-Survival-Server
+                auf <strong>wildtown.eu</strong>. Community, Economy, Events und entspanntes Gameplay.
+            </p>
+
+            <div class="server-ip-box">
+                <span class="server-ip-label">Server-IP</span>
+                <span class="server-ip" id="serverIp">wildtown.eu</span>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn btn-primary" onclick="copyIp()">
+                    ⛏ IP kopieren & spielen
+                </button>
+
+                <a href="#status">
+                    <button class="btn btn-secondary">
+                        📡 Server-Status
+                    </button>
+                </a>
+
+                <a href="https://discord.gg/sNajNZcKr" target="_blank" rel="noopener noreferrer">
+                    <button class="btn btn-secondary">
+                        💬 Discord beitreten
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="hero-block-strip"></div>
+    </section>
+
+    <!-- Main -->
+    <main>
+        <!-- Über + Status -->
+        <section id="about" class="block">
+            <div class="two-column">
+                <div>
+                    <h2>Über WildTown</h2>
+                    <p>
+                        WildTown ist ein Minecraft-Server mit Fokus auf eine freundliche Community
+                        und klares, spaßiges Survival-Gameplay. Du bekommst eine eigene Wirtschaft,
+                        geschützte Grundstücke, sinnvolle QoL-Features und regelmäßige Community-Aktionen.
+                    </p>
+                    <p style="margin-top:0.6rem;">
+                        Ob du gemütlich bauen, mit Freunden eine Stadt gründen oder an Events teilnehmen willst –
+                        auf <strong>wildtown.eu</strong> findest du deinen Platz.
+                    </p>
+                </div>
+
+                <div id="status" aria-live="polite">
+                    <div class="small-label">Live-Status</div>
+                    <div class="status-card" id="statusCard">
+                        <div class="status-header">
+                            <div class="status-title">Minecraft Server • wildtown.eu</div>
+                            <div class="status-pill" id="statusPill">
+                                <span class="status-dot" id="statusDot"></span>
+                                <span id="statusText">Lade Status…</span>
+                            </div>
+                        </div>
+                        <div class="status-body" id="statusBody">
+                            Versuche, den Serverstatus abzurufen …
+                        </div>
+                        <div class="status-metrics" id="statusMetrics" style="display:none;">
+                            <span id="playersMetric"></span>
+                            <span id="versionMetric"></span>
+                            <span id="motdMetric"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="block">
+            <h2>Features</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Survival mit Komfort</h3>
+                    <p>
+                        Klassisches Survival mit Homes, TPA und Claim-System, damit deine Builds sicher sind
+                        und du trotzdem flexibel bleiben kannst.
+                    </p>
+                    <span class="tag">Survival</span>
+                </div>
+                <div class="card">
+                    <h3>Economy & Shops</h3>
+                    <p>
+                        Handel mit anderen Spielern, eröffne eigene Shops und baue dir dein Ingame-Vermögen auf.
+                    </p>
+                    <span class="tag">Economy</span>
+                </div>
+                <div class="card">
+                    <h3>Events & Community</h3>
+                    <p>
+                        Regelmäßige Events wie Bauwettbewerbe, PvP-Turniere und Community-Abende im Discord.
+                    </p>
+                    <span class="tag">Events</span>
+                </div>
+                <div class="card">
+                    <h3>Städte & Projekte</h3>
+                    <p>
+                        Gründe deine eigene Stadt, schließe dich Großprojekten an und gestalte gemeinsam WildTown.
+                    </p>
+                    <span class="tag">Projekte</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Regeln -->
+        <section id="rules" class="block">
+            <h2>Regeln</h2>
+            <p>Ein paar einfache Regeln, damit alle Spaß haben können:</p>
+            <ul>
+                <li>Kein Griefing, Cheating, Hacking oder Ausnutzen von Bugs.</li>
+                <li>Respektvoller Umgang – keine Beleidigungen, kein Mobbing.</li>
+                <li>Kein Spam im Chat und keine Werbung für andere Server.</li>
+                <li>Claims und Grundstücke anderer Spieler werden respektiert.</li>
+                <li>Folge den Anweisungen des Serverteams.</li>
+            </ul>
+            <p style="margin-top:0.7rem;font-size:0.9rem;color:#b7bde6;">
+                Die vollständigen Regeln findest du auf unserem Discord.
+            </p>
+        </section>
+
+        <!-- Discord -->
+        <section id="discord" class="block">
+            <h2>Discord & Community</h2>
+            <div class="two-column">
+                <div>
+                    <p>
+                        Der Mittelpunkt der Community ist unser offizieller Discord-Server
+                        <strong>WildTown.net (Network)</strong>. Dort bekommst du:
+                    </p>
+                    <ul>
+                        <li>Support bei Fragen & Problemen</li>
+                        <li>News, Changelogs & Ankündigungen</li>
+                        <li>Event-Infos und Abstimmungen</li>
+                        <li>Sprachkanäle zum gemeinsamen Zocken</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="discord-box">
+                        <div class="small-label">Discord</div>
+                        <div class="discord-name">WildTown.net (Network)</div>
+                        <p style="margin-top:0.4rem;font-size:0.9rem;color:#c4caee;">
+                            Klicke unten, um direkt unserem Discord-Server beizutreten.
+                        </p>
+                        <a class="discord-link" href="https://discord.gg/sNajNZcKr" target="_blank" rel="noopener noreferrer">
+                            💬 Jetzt Discord beitreten
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        WildTown – Minecraft Server • wildtown.eu<br />
+        Community & Support auf
+        <a href="https://discord.gg/sNajNZcKr" target="_blank" rel="noopener noreferrer">
+            WildTown.net (Network) Discord
+        </a>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // IP kopieren
+        function copyIp() {
+            var ip = document.getElementById("serverIp").textContent.trim();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(ip).then(function () {
+                    alert("Server-IP kopiert: " + ip);
+                }, function () {
+                    alert("Konnte die IP nicht automatisch kopieren. IP: " + ip);
+                });
+            } else {
+                alert("Server-IP: " + ip);
+            }
+        }
+
+        // Live-Serverstatus von mcsrvstat.us
+        async function loadServerStatus() {
+            var statusText = document.getElementById("statusText");
+            var statusDot = document.getElementById("statusDot");
+            var statusBody = document.getElementById("statusBody");
+            var statusMetrics = document.getElementById("statusMetrics");
+            var playersMetric = document.getElementById("playersMetric");
+            var versionMetric = document.getElementById("versionMetric");
+            var motdMetric = document.getElementById("motdMetric");
+
+            try {
+                const response = await fetch("https://api.mcsrvstat.us/2/wildtown.eu");
+                const data = await response.json();
+
+                if (!data || data.online === false) {
+                    statusText.textContent = "Offline";
+                    statusDot.style.background = "#ef4444";
+                    statusBody.textContent = "Der Server scheint aktuell offline zu sein oder der Status kann nicht abgerufen werden.";
+                    statusMetrics.style.display = "none";
+                    return;
+                }
+
+                statusText.textContent = "Online";
+                statusDot.style.background = "#22c55e";
+
+                const onlinePlayers = data.players && typeof data.players.online === "number" ? data.players.online : "?";
+                const maxPlayers = data.players && typeof data.players.max === "number" ? data.players.max : "?";
+                const version = data.version || "unbekannt";
+                const motd = data.motd && data.motd.clean && data.motd.clean.length > 0 ? data.motd.clean[0] : "Minecraft Server WildTown";
+
+                statusBody.textContent = motd;
+                playersMetric.textContent = "Spieler: " + onlinePlayers + " / " + maxPlayers;
+                versionMetric.textContent = "Version: " + version;
+                motdMetric.textContent = "Ping/Port: Standard";
+
+                statusMetrics.style.display = "flex";
+            } catch (e) {
+                statusText.textContent = "Unbekannt";
+                statusDot.style.background = "#f59e0b";
+                statusBody.textContent = "Status konnte nicht geladen werden. Versuche es später erneut.";
+                statusMetrics.style.display = "none";
+            }
+        }
+
+        loadServerStatus();
+    </script>
+</body>
+</html>
